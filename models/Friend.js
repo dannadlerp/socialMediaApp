@@ -11,14 +11,14 @@ const friendSchema = new Schema(
 
       default: () => new Types.ObjectId(),
     },
-    friendUsername: {
+
+    //thoughts key in user model? or thoughtText in thought model?
+    thoughts: {
       type: String,
       required: true,
       maxlength: 50,
       minlength: 4,
-      default: "unnamed friend" /* function () {
-      return `Friend${getRandomInt(1, 20)}`;
-    } */,
+      default: "unnamed thought",
     },
   },
   {

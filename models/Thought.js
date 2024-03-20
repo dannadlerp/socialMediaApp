@@ -3,9 +3,11 @@ const { Schema, model, Types } = require("mongoose");
 // Schema to create a course model
 const thoughtSchema = new Schema(
   {
-    thoughtName: {
-      type: String,
-      required: true,
+    thoughtId: {
+      type: Types.ObjectId,
+      /* type: Schema.Types.ObjectId, */
+
+      default: () => new Types.ObjectId(),
     },
     thoughtText: {
       type: String,

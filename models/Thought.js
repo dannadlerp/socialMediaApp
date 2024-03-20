@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 
 // Schema to create a course model
 const thoughtSchema = new Schema(
@@ -28,4 +28,4 @@ const thoughtSchema = new Schema(
 
 const Thought = model("thought", thoughtSchema);
 
-(module.exports = Thought), thoughtSchema;
+module.exports = Thought;

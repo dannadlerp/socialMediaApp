@@ -1,141 +1,142 @@
-const { ObjectId } = require('mongoose').Types;
-const { Student, Course } = require('../models');
+/* const { ObjectId } = require("mongoose").Types; */
+const { Friend, Thought } = require("../models");
 
-// Aggregate function to get the number of students overall
+// Aggregate function to get the number of friends overall
 const headCount = async () => {
-  const numberOfStudents = await Student.aggregate()
-    .count('studentCount');
-  return numberOfStudents;
-}
+  const numberOfFriends = await Friend.aggregate().count("friendCount");
+  return numberOfFriends;
+};
 
-// Aggregate function for getting the overall grade using $avg
-const grade = async (studentId) =>
-  Student.aggregate([
-    // only include the given student by using $match
-    { $match: { _id: new ObjectId(studentId) } },
+/* // Aggregate function for getting the overall grade using $avg
+const grade = async (friendId) =>
+  Friend.aggregate([
+    // only include the given friend by using $match
+    { $match: { _id: new ObjectId(friendId) } },
     {
-      $unwind: '$assignments',
+      $unwind: "$friends",
     },
     {
       $group: {
-        _id: new ObjectId(studentId),
-        overallGrade: { $avg: '$assignments.score' },
+        _id: new ObjectId(friendId),
+        overallGrade: { $avg: "$friends.score" },
       },
     },
-  ]);
+  ]); */
 
 module.exports = {
-  // Get all students
-  async getStudents(req, res) {
+  // Get all friends
+  async getFriends(req, res) {
     try {
-      const students = await Student.find();
+      const friends = await Friend.find();
 
-      const studentObj = {
-        students,
+      const friendObj = {
+        friends,
         headCount: await headCount(),
       };
 
-      res.json(studentObj);
+      res.json(friendObj);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
     }
   },
-  // Get a single student
-  async getSingleStudent(req, res) {
+  // Get a single friend
+  async getSingleFriend(req, res) {
     try {
-      const student = await Student.findOne({ _id: req.params.studentId })
-        .select('-__v');
+      const friend = await Friend.findOne({ _id: req.params.friendId }).select(
+        "-__v"
+      );
 
-      if (!student) {
-        return res.status(404).json({ message: 'No student with that ID' })
+      if (!friend) {
+        return res.status(404).json({ message: "No friend with that ID" });
       }
 
       res.json({
-        student,
-        grade: await grade(req.params.studentId),
+        FriendUsername: await req.params.friendUsername,
       });
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
     }
   },
-  // create a new student
-  async createStudent(req, res) {
+  // create a new friend
+  async createFriend(req, res) {
     try {
-      const student = await Student.create(req.body);
-      res.json(student);
+      const friend = await Friend.create(req.body);
+      res.json(friend);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // Delete a student and remove them from the course
-  async deleteStudent(req, res) {
+  // Delete a friend and remove them from the thought
+  async deleteFriend(req, res) {
     try {
-      const student = await Student.findOneAndRemove({ _id: req.params.studentId });
+      const friend = await Friend.findOneAndRemove({
+        _id: req.params.friendId,
+      });
 
-      if (!student) {
-        return res.status(404).json({ message: 'No such student exists' });
+      if (!friend) {
+        return res.status(404).json({ message: "No such friend exists" });
       }
 
-      const course = await Course.findOneAndUpdate(
-        { students: req.params.studentId },
-        { $pull: { students: req.params.studentId } },
+      const thought = await Thought.findOneAndUpdate(
+        { friends: req.params.friendId },
+        { $pull: { friends: req.params.friendId } },
         { new: true }
       );
 
-      if (!course) {
+      if (!thought) {
         return res.status(404).json({
-          message: 'Student deleted, but no courses found',
+          message: "Friend deleted, but no thoughts found",
         });
       }
 
-      res.json({ message: 'Student successfully deleted' });
+      res.json({ message: "Friend successfully deleted" });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
     }
   },
 
-  // Add an assignment to a student
-  async addAssignment(req, res) {
-    console.log('You are adding an assignment');
+  // Add a friend
+  async addFriend(req, res) {
+    console.log("You are adding an friend");
     console.log(req.body);
 
     try {
-      const student = await Student.findOneAndUpdate(
-        { _id: req.params.studentId },
-        { $addToSet: { assignments: req.body } },
+      const friend = await Friend.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $addToSet: { friends: req.body } },
         { runValidators: true, new: true }
       );
 
-      if (!student) {
+      if (!friend) {
         return res
           .status(404)
-          .json({ message: 'No student found with that ID :(' });
+          .json({ message: "No friend found with that ID :(" });
       }
 
-      res.json(student);
+      res.json(friend);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // Remove assignment from a student
-  async removeAssignment(req, res) {
+  // Remove friend from a friend
+  async removeFriend(req, res) {
     try {
-      const student = await Student.findOneAndUpdate(
-        { _id: req.params.studentId },
-        { $pull: { assignment: { assignmentId: req.params.assignmentId } } },
+      const friend = await Friend.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $pull: { friend: { friendId: req.params.friendId } } },
         { runValidators: true, new: true }
       );
 
-      if (!student) {
+      if (!friend) {
         return res
           .status(404)
-          .json({ message: 'No student found with that ID :(' });
+          .json({ message: "No friend found with that ID :(" });
       }
 
-      res.json(student);
+      res.json(friend);
     } catch (err) {
       res.status(500).json(err);
     }

@@ -1,7 +1,7 @@
-const { Schema, Types } = require("mongoose");
-function getRandomInt(min, max) {
+const { Schema, model, Types } = require("mongoose");
+/* function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+} */
 
 const friendSchema = new Schema(
   {
@@ -16,10 +16,10 @@ const friendSchema = new Schema(
       required: true,
       maxlength: 50,
       minlength: 4,
-    },
-    default: "unnamed friend" /* function () {
+      default: "unnamed friend" /* function () {
       return `Friend${getRandomInt(1, 20)}`;
     } */,
+    },
   },
   {
     toJSON: {
@@ -29,4 +29,6 @@ const friendSchema = new Schema(
   }
 );
 
-module.exports = friendSchema;
+const Friend = model("friend", friendSchema);
+
+(module.exports = Friend), friendSchema;

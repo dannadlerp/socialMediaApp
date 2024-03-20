@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const friendSchema = require("./Friend");
 const thoughtSchema = require("./Thought");
 
-// Schema to create Student model
+// Schema to create User model
 const userSchema = new Schema(
   {
     userName: {
@@ -10,8 +10,8 @@ const userSchema = new Schema(
       required: true,
       maxlength: 50,
     },
-  },
-  {
+    /*   },
+  { */
     friends: [friendSchema],
     thoughts: [thoughtSchema],
   },
@@ -22,6 +22,6 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("user", userSchema);
+const User = model("User", userSchema);
 
-module.exports = userSchema;
+module.exports = User;

@@ -34,8 +34,8 @@ connection.once("open", async () => {
   // Loop 5 times -- add friends to the users array
   for (let i = 0; i < 5; i++) {
     // Get some random friend objects using a helper function that we imported from ./data
+    const userName = getRandomName(1);
     const friends = getRandomFriends(5);
-    const userName = getRandomFriends(1);
     /*     const friendUsername = getRandomName();
      */ const thoughts = getRandomThoughts(3);
 
@@ -48,7 +48,7 @@ connection.once("open", async () => {
 
   // Loop 5 times -- add thoughttext to the thoughtsArray
   for (let i = 0; i < 5; i++) {
-    // Get some random friend objects using a helper function that we imported from ./data
+    // Get some random thought objects using a helper function that we imported from ./data
     const thoughts = getRandomThoughts(5);
     const thoughtId = i;
     const thoughtText = getRandomThoughtText();

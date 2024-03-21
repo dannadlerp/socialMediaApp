@@ -1,4 +1,4 @@
-/* const { ObjectId } = require("mongoose").Types; */
+/*
 const { User, Thought } = require("../models");
 
 // Aggregate function to get the number of users overall
@@ -21,7 +21,7 @@ const grade = async (userId) =>
         overallGrade: { $avg: '$friends.score' },
       },
     },
-  ]); */
+  ]);
 
 module.exports = {
   // Get all users
@@ -51,10 +51,10 @@ module.exports = {
         return res.status(404).json({ message: "No user with that ID" });
       }
 
-      /*    res.json({
+          res.json({
         user,
         grade: await grade(req.params.userId),
-      }); */
+      });
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -84,39 +84,39 @@ module.exports = {
         { users: req.params.userId },
         { $pull: { users: req.params.userId } },
         { new: true }
-      );
-
-      if (!thought) {
-        return res.status(404).json({
-          message: "User deleted, but no thoughts found",
-        });
-      }
-
-      res.json({ message: "User successfully deleted" });
-    } catch (err) {
-      console.log(err);
+        );
+        
+        if (!thought) {
+          return res.status(404).json({
+            message: "User deleted, but no thoughts found",
+          });
+        }
+        
+        res.json({ message: "User successfully deleted" });
+      } catch (err) {
+        console.log(err);
       res.status(500).json(err);
     }
   },
-
+  
   // Add a friend to a user
   async addFriend(req, res) {
     console.log("You are adding a friend");
     console.log(req.body);
-
+    
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
         { $addToSet: { friends: req.body } },
         { runValidators: true, new: true }
       );
-
+      
       if (!user) {
         return res
-          .status(404)
-          .json({ message: "No user found with that ID :(" });
+        .status(404)
+        .json({ message: "No user found with that ID :(" });
       }
-
+      
       res.json(user);
     } catch (err) {
       res.status(500).json(err);
@@ -129,17 +129,19 @@ module.exports = {
         { _id: req.params.userId },
         { $pull: { friend: { friendId: req.params.friendId } } },
         { runValidators: true, new: true }
-      );
-
-      if (!user) {
-        return res
+        );
+        
+        if (!user) {
+          return res
           .status(404)
           .json({ message: "No user found with that ID :(" });
+        }
+        
+        res.json(user);
+      } catch (err) {
+        res.status(500).json(err);
       }
-
-      res.json(user);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  },
-};
+    },
+  };
+  
+  */

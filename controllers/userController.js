@@ -7,7 +7,6 @@ module.exports = {
     try {
       // Retrieve the list of users from the database
       const users = await User.find();
-      console.log(`This is what I found: ${users}`);
       res.json(users);
     } catch (err) {
       console.log(err);
@@ -25,9 +24,12 @@ module.exports = {
         return res.status(404).json({ message: "No user with that username" });
       }
 
-      res.json({
+      res.json(
+        user /* {
         FriendUsername: await req.params.friendUsername,
-      });
+      } */
+      );
+      console.log(`User found: ${user}`);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -72,19 +74,34 @@ module.exports = {
     }
   },
 
-  // Get all friends for a user
+  // Get all users' friends
   async getFriends(req, res) {
     try {
-      const userName = req.params.userName;
-      const friends = await Friend.find({ userName: userName });
+      // Retrieve the list of users' friends from the database
+      const usersFriends = await User.friends.find();
+      res.json(usersFriends);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  },
+  // Get a single user by name
+  async getSingleUsersFriend(req, res) {
+    try {
+      const usersFriend = await User.friends
+        .findOne({
+          friendName: req.params.userName,
+        })
+        .select("-__v");
 
-      if (!friends) {
+      if (!usersFriend) {
         return res
           .status(404)
-          .json({ message: "No friends found for this user" });
+          .json({ message: "No friend with that username" });
       }
 
-      res.json(friends);
+      res.json(usersFriend);
+      console.log(`User found: ${user}`);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -96,7 +113,7 @@ module.exports = {
     console.log(req.body);
 
     try {
-      const friend = await Friend.findOneAndUpdate(
+      const friend = await User.friend.findOneAndUpdate(
         { _id: req.params.friendId },
         { $addToSet: { friends: req.body } },
         { runValidators: true, new: true }

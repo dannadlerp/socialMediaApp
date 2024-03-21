@@ -25,30 +25,28 @@ const grade = async (friendId) =>
 
 module.exports = {
   // Get all friends
-  async getFriends(req, res) {
+  async getUsers(req, res) {
     try {
-      const friends = await Friend.find();
+      // Retrieve the list of users from the database
+      const users = await User.find();
 
-      const friendObj = {
-        friends,
-        headCount: await headCount(),
-      };
-
-      res.json(friendObj);
+      // Send the list of users as a JSON response
+      res.json(users);
     } catch (err) {
+      // If an error occurs, log the error and send a 500 status code with the error message
       console.log(err);
       return res.status(500).json(err);
     }
   },
-  // Get a single friend
-  async getSingleFriend(req, res) {
+  // Get a single user by name
+  async getSingleUser(req, res) {
     try {
-      const friend = await Friend.findOne({ _id: req.params.friendId }).select(
+      const user = await User.findOne({ _id: req.params.userName }).select(
         "-__v"
       );
 
-      if (!friend) {
-        return res.status(404).json({ message: "No friend with that ID" });
+      if (!user) {
+        return res.status(404).json({ message: "No user with that username" });
       }
 
       res.json({
@@ -59,27 +57,27 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // create a new friend
-  async createFriend(req, res) {
+  // create a new user
+  async createUser(req, res) {
     try {
-      const friend = await Friend.create(req.body);
-      res.json(friend);
+      const user = await User.create(req.body);
+      res.json(User);
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // Delete a friend and remove them from the thought
-  async deleteFriend(req, res) {
+  // Delete a User and remove them from the thought
+  async deleteUser(req, res) {
     try {
-      const friend = await Friend.findOneAndRemove({
-        _id: req.params.friendId,
+      const user = await User.findOneAndRemove({
+        _id: req.params.userName,
       });
 
-      if (!friend) {
-        return res.status(404).json({ message: "No such friend exists" });
+      if (!user) {
+        return res.status(404).json({ message: "No such user exists" });
       }
 
-      const thought = await Thought.findOneAndUpdate(
+      /* const thought = await Thought.findOneAndUpdate(
         { friends: req.params.friendId },
         { $pull: { friends: req.params.friendId } },
         { new: true }
@@ -89,16 +87,16 @@ module.exports = {
         return res.status(404).json({
           message: "Friend deleted, but no thoughts found",
         });
-      }
+      } */
 
-      res.json({ message: "Friend successfully deleted" });
+      res.json({ message: "User successfully deleted" });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
     }
   },
 
-  // Add a friend
+  // Add a friend to a friend
   async addFriend(req, res) {
     console.log("You are adding an friend");
     console.log(req.body);
@@ -121,10 +119,10 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Remove friend from a friend
+  // Remove friend from a user
   async removeFriend(req, res) {
     try {
-      const friend = await Friend.findOneAndUpdate(
+      const friend = await User.findOneAndUpdate(
         { _id: req.params.friendId },
         { $pull: { friend: { friendId: req.params.friendId } } },
         { runValidators: true, new: true }

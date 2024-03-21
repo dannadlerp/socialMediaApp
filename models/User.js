@@ -15,13 +15,11 @@ const userSchema = new Schema(
       type: String,
       ref: "Friend",
     },
+
     thoughts: {
       type: String,
       ref: "Thought",
     },
-
-    /* friends: [friendSchema],
-    thoughts: [thoughtSchema], */
   },
   {
     toJSON: {

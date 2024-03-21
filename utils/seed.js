@@ -37,13 +37,13 @@ connection.once("open", async () => {
     const friends = getRandomFriends(20);
     const friendId = i;
     const friendUsername = getRandomName();
-    /*    const  = fullName.split(" ")[0];
-         const github = `${first}${Math.floor(Math.random() * (99 - 18 + 1) + 18)}`;
-     */
+    const thoughts = getRandomThoughtText();
+
     users.push({
       friendId,
       friendUsername,
       friends,
+      thoughts,
     });
   }
 
@@ -68,11 +68,13 @@ connection.once("open", async () => {
   await User.collection.insertMany(users);
 
   // Add thoughts to the collection and await the results
-  await Thought.collection.insertOne({
+  /* await Thought.collection.insertOne({
     thoughtName: "I'm going to college!",
-    users: [...users],
-  });
+    users: [...users], */
+  await Thought.collection.insertMany(thoughtsArray);
 
+  /*   });
+   */
   // Log out the seed data to indicate what should appear in the database
   console.log("Users:");
   console.table(users);

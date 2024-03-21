@@ -1,5 +1,5 @@
 /* const { ObjectId } = require("mongoose").Types; */
-const { Friend, Thought } = require("../models");
+const { User, Friend, Thought } = require("../models");
 
 // Aggregate function to get the number of friends overall
 const headCount = async () => {
@@ -24,16 +24,13 @@ const grade = async (friendId) =>
   ]); */
 
 module.exports = {
-  // Get all friends
+  // Get all users
   async getUsers(req, res) {
     try {
       // Retrieve the list of users from the database
       const users = await User.find();
-
-      // Send the list of users as a JSON response
       res.json(users);
     } catch (err) {
-      // If an error occurs, log the error and send a 500 status code with the error message
       console.log(err);
       return res.status(500).json(err);
     }
@@ -41,9 +38,9 @@ module.exports = {
   // Get a single user by name
   async getSingleUser(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userName }).select(
-        "-__v"
-      );
+      const user = await User.findOne({
+        userName: req.params.userName,
+      }).select("-__v");
 
       if (!user) {
         return res.status(404).json({ message: "No user with that username" });
@@ -61,7 +58,7 @@ module.exports = {
   async createUser(req, res) {
     try {
       const user = await User.create(req.body);
-      res.json(User);
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }

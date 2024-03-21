@@ -96,6 +96,24 @@ module.exports = {
     }
   },
 
+  // Get all friends for a user
+  async getFriends(req, res) {
+    try {
+      const userName = req.params.userName;
+      const friends = await Friend.find({ userName: userName });
+
+      if (!friends) {
+        return res
+          .status(404)
+          .json({ message: "No friends found for this user" });
+      }
+
+      res.json(friends);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  },
   // Add a friend to a friend
   async addFriend(req, res) {
     console.log("You are adding an friend");

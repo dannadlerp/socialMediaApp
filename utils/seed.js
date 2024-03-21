@@ -31,26 +31,25 @@ connection.once("open", async () => {
   const thoughtsArray = [];
   const friendsArray = [];
 
-  // Loop 20 times -- add friends to the users array
-  for (let i = 0; i < 20; i++) {
+  // Loop 5 times -- add friends to the users array
+  for (let i = 0; i < 5; i++) {
     // Get some random friend objects using a helper function that we imported from ./data
-    const friends = getRandomFriends(20);
-    const friendId = i;
-    const friendUsername = getRandomName();
-    const thoughts = getRandomThoughtText();
+    const friends = getRandomFriends(5);
+    const userName = getRandomFriends(1);
+    /*     const friendUsername = getRandomName();
+     */ const thoughts = getRandomThoughts(3);
 
     users.push({
-      friendId,
-      friendUsername,
+      userName,
       friends,
       thoughts,
     });
   }
 
-  // Loop 20 times -- add thoughttext to the thoughtsArray
-  for (let i = 0; i < 20; i++) {
+  // Loop 5 times -- add thoughttext to the thoughtsArray
+  for (let i = 0; i < 5; i++) {
     // Get some random friend objects using a helper function that we imported from ./data
-    const thoughts = getRandomThoughts(20);
+    const thoughts = getRandomThoughts(5);
     const thoughtId = i;
     const thoughtText = getRandomThoughtText();
     const postDate = new Date();

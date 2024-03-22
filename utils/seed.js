@@ -1,5 +1,5 @@
 const connection = require("../config/connection");
-const { User, Thought, Friend } = require("../models");
+const { User, Thought } = require("../models");
 const {
   getRandomName,
   getRandomFriends,
@@ -26,7 +26,7 @@ connection.once("open", async () => {
     await connection.dropCollection("users");
   }
 
-  // Create empty array to hold the users
+  // Create empty arrays to hold the data
   const users = [];
   const thoughtsArray = [];
   const friendsArray = [];
@@ -38,7 +38,8 @@ connection.once("open", async () => {
     const friends = getRandomFriends(5);
     /*     const friendUsername = getRandomName();
      */ const thoughts = getRandomThoughts(3);
-
+    /*     console.log(`friends array: ${typeof friends}`);
+     */
     users.push({
       userName,
       friends,

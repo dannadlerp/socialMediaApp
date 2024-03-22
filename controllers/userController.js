@@ -1,16 +1,19 @@
 /* const { ObjectId } = require("mongoose").Types; */
-const { User, Friend, Thought } = require("../models");
+const { User } = require("../models");
 
 module.exports = {
   // Get all users
   async getUsers(req, res) {
     try {
-      // Retrieve the list of users from the database
-      const users = await User.find();
+      // Retrieve the list of users from the database, populating the friends and thoughts fields
+      const users = await User.find().populate("friends").populate("thoughts");
+      console.log(`Users found: ${users}`);
+
+      // Send the users array as the response
       res.json(users);
     } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
+      console.error(err);
+      return res.status(500).send(err);
     }
   },
   // Get a single user by name
@@ -21,7 +24,7 @@ module.exports = {
       }).select("-__v");
 
       if (!user) {
-        return res.status(404).json({ message: "No user with that username" });
+        return res.status(404).send(err);
       }
 
       res.json(
@@ -32,7 +35,7 @@ module.exports = {
       console.log(`User found: ${user}`);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).send(err);
     }
   },
   // create a new user
@@ -41,7 +44,7 @@ module.exports = {
       const user = await User.create(req.body);
       res.json(user);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).send(err);
     }
   },
   // Delete a User and remove them from the thought
@@ -62,7 +65,7 @@ module.exports = {
       );
 
       if (!thought) {
-        return res.status(404).json({
+      return res.status(404).send(err);
           message: "Friend deleted, but no thoughts found",
         });
       } */
@@ -70,7 +73,7 @@ module.exports = {
       res.json({ message: "User successfully deleted" });
     } catch (err) {
       console.log(err);
-      res.status(500).json(err);
+      return res.status(500).send(err);
     }
   },
 
@@ -78,14 +81,22 @@ module.exports = {
   async getFriends(req, res) {
     try {
       // Retrieve the list of users' friends from the database
-      const users = await User.find();
-      const friends = users.map((user) => user.friends).flat;
-      res.json(friends);
+      const user = await User.findOne({ userName: req.params.userName });
+
+      if (!user) {
+        return res.status(404).json({ message: "No user with that username" });
+      }
+
+      const friends = user.friends;
+      res.json({ message: `User Friends: ${friends}` });
+
+      console.log(`User friend found: ${friends}`);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).send(err);
     }
   },
+
   // Get a single user by name
   async getSingleUsersFriend(req, res) {
     try {
@@ -105,7 +116,7 @@ module.exports = {
       console.log(`User found: ${user}`);
     } catch (err) {
       console.log(err);
-      return res.status(500).json(err);
+      return res.status(500).send(err);
     }
   },
   // Add a friend to a friend
@@ -128,7 +139,7 @@ module.exports = {
 
       res.json(friend);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).send(err);
     }
   },
   // Remove friend from a user
@@ -148,7 +159,7 @@ module.exports = {
 
       res.json(friend);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).send(err);
     }
   },
 };

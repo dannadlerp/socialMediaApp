@@ -78,8 +78,9 @@ module.exports = {
   async getFriends(req, res) {
     try {
       // Retrieve the list of users' friends from the database
-      const usersFriends = await User.friends.find();
-      res.json(usersFriends);
+      const users = await User.find();
+      const friends = users.map((user) => user.friends).flat;
+      res.json(friends);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);

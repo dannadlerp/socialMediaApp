@@ -16,7 +16,7 @@ module.exports = {
   async getSingleThought(req, res) {
     try {
       const thought = await Thought.findOne({
-        _id: req.params.thoughtId,
+        _id: req.params.id,
       }).select("-__v");
 
       if (!thought) {
@@ -42,7 +42,7 @@ module.exports = {
   async deleteThought(req, res) {
     try {
       const thought = await Thought.findOneAndDelete({
-        _id: req.params.thoughtId,
+        _id: req.params.id,
       });
 
       if (!thought) {
@@ -59,7 +59,7 @@ module.exports = {
   async updateThought(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
-        { _id: req.params.thoughtId },
+        { _id: req.params.id },
         { $set: req.body },
         { runValidators: true, new: true }
       );

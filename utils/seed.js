@@ -50,14 +50,13 @@ connection.once("open", async () => {
   for (let i = 0; i < 5; i++) {
     // Get some random thought objects using a helper function that we imported from ./data
     const thoughts = getRandomThoughts(5);
-    const thoughtId = i;
-    const thoughtText = getRandomThoughtText();
+    /*     const id = i;
+     */ const thoughtText = getRandomThoughtText();
     const postDate = new Date();
     /*    const  = fullName.split(" ")[0];
          const github = `${first}${Math.floor(Math.random() * (99 - 18 + 1) + 18)}`;
      */
     thoughtsArray.push({
-      thoughtId,
       thoughtText,
       postDate,
     });

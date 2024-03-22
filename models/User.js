@@ -1,5 +1,5 @@
 const { Schema, model, Type } = require("mongoose");
-/* const friendSchema = require("./Friend"); */
+const friendSchema = require("./Friend");
 const thoughtSchema = require("./Thought");
 
 // Schema to create User model
@@ -11,9 +11,13 @@ const userSchema = new Schema(
       maxlength: 50,
     },
 
-    friends: { type: Schema.Types.ObjectId },
+    friends: {
+      type: Types.ObjectId,
+      ref: "Friend",
+    },
+
     thoughts: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: "Thought",
     },
   },

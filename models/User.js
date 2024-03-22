@@ -29,6 +29,6 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("User", userSchema); // Changed model name from 'user' to 'User'
+const User = model("user", userSchema);
 
 module.exports = User;

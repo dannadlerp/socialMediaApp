@@ -3,12 +3,6 @@ const { Schema, model, Types } = require("mongoose");
 // Schema to create a course model
 const thoughtSchema = new Schema(
   {
-    /* thoughtId: {
-      type: Types.ObjectId,
-      
-
-      default: () => new Types.ObjectId(),
-    }, */
     thoughtText: {
       type: String,
       required: true,
@@ -19,6 +13,12 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now(),
     },
+    reactions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "thoughtSchema",
+      },
+    ],
   },
   {
     toJSON: {

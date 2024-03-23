@@ -9,21 +9,21 @@ const {
   getFriends,
   getSingleUsersFriend,
   getFriend,
+  updateUser,
 } = require("../../controllers/userController");
 
 // /api/users
 router.route("/").get(getUsers).post(createUser);
-/*.put(editUser) */
 
-// /api/users/:userName
-router.route("/:userName").get(getSingleUser);
+// /api/users/:_id
+router.route("/:_id").get(getSingleUser).delete(deleteUser).put(updateUser);
 
-// /api/users/:userName/friends
-router.route("/:userName/friends").get(getFriends).post(addFriend);
+// /api/users/:_id/friends
+router.route("/:_id/friends").get(getFriends).post(addFriend);
 
-// /api/users/:userName/friends/:friendId
+// /api/users/:_id/friends/:friendId
 router
-  .route("/:userName/friends/:friendId")
+  .route("/:_id/friends/:friendId")
   .get(getSingleUsersFriend)
   .delete(removeFriend);
 

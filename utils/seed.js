@@ -41,9 +41,9 @@ connection.once("open", async () => {
     /*     console.log(`friends array: ${typeof friends}`);
      */
     users.push({
-      userName,
-      friends,
-      thoughts,
+      userName: userName,
+      friends: friends,
+      thoughts: thoughts,
     });
   }
 

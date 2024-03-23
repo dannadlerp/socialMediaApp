@@ -10,15 +10,15 @@ const userSchema = new Schema(
 
     friends: [
       {
-        type: Types.ObjectId,
-        ref: "User",
+        type: Schema.Types.ObjectId, //scehma types is different from just types to be used in schemas only
+        ref: "userSchema",
       },
     ],
 
     thoughts: [
       {
-        type: Types.ObjectId,
-        ref: "Thought",
+        type: Schema.Types.ObjectId,
+        ref: "thoughtSchema",
       },
     ],
   },
@@ -29,6 +29,6 @@ const userSchema = new Schema(
   }
 );
 
-const User = model("user", userSchema);
+const User = model("User", userSchema);
 
 module.exports = User;

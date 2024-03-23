@@ -6,7 +6,7 @@ module.exports = {
   async getUsers(req, res) {
     try {
       // Retrieve the list of users from the database, populating the friends and thoughts fields
-      const users = await User.find().populate("friends").populate("thoughts");
+      const users = await User.find().select("-__v");
       console.log(`Users found: ${users}`);
 
       // Send the users array as the response
@@ -24,7 +24,7 @@ module.exports = {
       }).select("-__v");
 
       if (!user) {
-        return res.status(404).send(err);
+        return res.status(404).json({ message: "No such user exists" });
       }
 
       res.json(

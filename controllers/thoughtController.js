@@ -110,7 +110,7 @@ postDate and reactions will default to the current date and an empty array
       }
 
       const reactions = thought.reactions;
-      res.json({ message: `Thought Reactions: ${reactions}` });
+      res.json({ reactions });
 
       console.log(`Thought reaction found: ${reactions}`);
     } catch (err) {

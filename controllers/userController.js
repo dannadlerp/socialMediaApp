@@ -51,7 +51,7 @@ module.exports = {
       return res.status(500).send(err);
     }
   },
-  // Delete a User and remove them from the thought
+  // Delete a User
   async deleteUser(req, res) {
     try {
       const user = await User.findOneAndRemove({

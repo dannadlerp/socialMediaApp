@@ -4,12 +4,11 @@ const {
   getSingleUser,
   createUser,
   deleteUser,
+  updateUser,
   addFriend,
   removeFriend,
   getFriends,
   getSingleUsersFriend,
-  getFriend,
-  updateUser,
 } = require("../../controllers/userController");
 
 // /api/users

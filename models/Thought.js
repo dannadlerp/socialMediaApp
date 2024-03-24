@@ -13,12 +13,7 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now(),
     },
-    reactions: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "thoughtSchema",
-      },
-    ],
+    reactions: [String],
   },
   {
     toJSON: {

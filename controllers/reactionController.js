@@ -1,4 +1,4 @@
-/* const { ObjectId } = require("mongoose").Types; */
+/*
 const { Reaction } = require("../models");
 
 module.exports = {
@@ -27,9 +27,7 @@ module.exports = {
       }
 
       res.json(
-        reaction /* {
-        FriendReactionname: await req.params.friendReactionname,
-      } */
+        reaction
       );
       console.log(`Reaction found: ${reaction}`);
     } catch (err) {
@@ -37,11 +35,10 @@ module.exports = {
       return res.status(500).send(err);
     }
   },
-  /*   create a new reaction
-  format: {
-	"reactionName": "test9"
-}
- */
+  //create a new reaction
+  //format: {
+	//"reactionName": "test9"
+//}
 
   async createReaction(req, res) {
     try {
@@ -71,13 +68,13 @@ module.exports = {
 
   // Update reaction data
 
-  /* format: {
-	"reactionName": "Johnsoon",
-	"friends": [
-		"65fe2c40fc860a281a7a5319"
-	],
-	"thoughts": []
-} */
+  // format: {
+	//"reactionName": "Johnsoon",
+	//"friends": [
+//		"65fe2c40fc860a281a7a5319"
+//	],
+//	"thoughts": []
+//}
 
   async updateReaction(req, res) {
     try {
@@ -138,11 +135,7 @@ module.exports = {
       return res.status(500).send(err);
     }
   },
-  /* Add a friend to a reaction
-format: {
-  "reactionName": "JohnDoe",
-  "friends": ["65fe2c40fc860a281a7a5319"]
-} */
+
 
   async addFriend(req, res) {
     console.log("You are adding an friend");
@@ -187,3 +180,4 @@ format: {
     }
   },
 };
+ */

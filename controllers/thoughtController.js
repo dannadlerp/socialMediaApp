@@ -146,25 +146,28 @@ format: {
     console.log(req.body);
 
     try {
+      // Create a new Reaction using req.body
       const reaction = await Reaction.create(req.body);
 
+      // Find the thought by its _id and update its reactions array
       const updatedThought = await Thought.findOneAndUpdate(
-        { _id: req.params._id },
-        { $addToSet: { reactions: newReaction._id } }, // Add the new reaction _id to the 'reactions' array
-        { runValidators: true, new: true } // Option to run validators to make sure data follows schemaand return the updated document
+        //{ _id: req.params._id },
+        { $addToSet: { reactions: reaction._id } } // Add the new reaction _id to the 'reactions' array
+        //{ runValidators: true, new: true } // Option to run validators to make sure data follows schema and return the updated document
       );
 
       if (!updatedThought) {
         return res
           .status(404)
-          .json({ message: "No reaction found with that ID :(" });
+          .json({ message: "No thought found with that ID :(" });
       }
 
+      // Send the updated thought as the response
       res.json(updatedThought);
     } catch (err) {
+      console.log(err);
       return res.status(500).send(err);
     }
-    console.log(err);
   },
 
   // Remove reaction from a thought

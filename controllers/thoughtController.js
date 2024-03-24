@@ -139,8 +139,6 @@ postDate and reactions will default to the current date and an empty array
   },
   /* Add a reaction to a thought
 format: {
-  "thoughtText": "JohnDoe",
-  "reactions": ["65fe2c40fc860a281a7a5319"]
 } */
 
   async addReaction(req, res) {
@@ -148,31 +146,25 @@ format: {
     console.log(req.body);
 
     try {
-      // Create a new reaction with the provided reactionText
-      const reaction = await Reaction.create({
-        reactionText: req.body.reactionText,
-      });
+      const reaction = await Reaction.create(req.body);
 
-      // Get the _id of the newly created reaction
-      const newReactionId = reaction._id;
-
-      // Update the referenced Thought document to include the new reaction _id in its reactions array
       const updatedThought = await Thought.findOneAndUpdate(
         { _id: req.params._id },
-        { $addToSet: { reactions: newReactionId } }, // Add the new reaction _id to the 'reactions' array
-        { runValidators: true, new: true } // Option to run validators to make sure data follows schema and return the updated document
+        { $addToSet: { reactions: newReaction._id } }, // Add the new reaction _id to the 'reactions' array
+        { runValidators: true, new: true } // Option to run validators to make sure data follows schemaand return the updated document
       );
 
       if (!updatedThought) {
         return res
           .status(404)
-          .json({ message: "No thought found with that ID :(" });
+          .json({ message: "No reaction found with that ID :(" });
       }
 
       res.json(updatedThought);
     } catch (err) {
       return res.status(500).send(err);
     }
+    console.log(err);
   },
 
   // Remove reaction from a thought

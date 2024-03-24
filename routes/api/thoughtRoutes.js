@@ -27,7 +27,7 @@ router.route("/:_id/reactions").get(getReactions).post(addReaction);
 
 // /api/thoughts/:_id/reactions/:reactionId
 router
-  .route("/:_id/reactions/:reactionId")
+  .route("/:_id/reactions/:_id")
   .get(getSingleThoughtsReaction)
   .delete(removeReaction);
 

@@ -50,7 +50,7 @@ postDate and reactions will default to the current date and an empty array
       return res.status(500).send(err);
     }
   },
-  // Delete a Thought and remove them from the thought
+  // Delete a Thought by _id
   async deleteThought(req, res) {
     try {
       const thought = await Thought.findOneAndRemove({
@@ -122,16 +122,16 @@ postDate and reactions will default to the current date and an empty array
   // Get a single reaction by id
   async getSingleThoughtsReaction(req, res) {
     try {
-      const thought = await Thought.findOne({
-        _id: req.params._id,
+      const reaction = await Reaction.findOne({
+        _id: req.params.reactionId,
       }).select("-__v");
 
-      if (!thought) {
-        return res.status(404).json({ message: "No thought with that id" });
+      if (!reaction) {
+        return res.status(404).json({ message: "No reaction with that id" });
       }
 
-      res.json(thought);
-      console.log(`Thought found: ${thought}`);
+      res.json(reaction);
+      console.log(`Reaction  found: ${reaction}`);
     } catch (err) {
       console.log(err);
       return res.status(500).send(err);

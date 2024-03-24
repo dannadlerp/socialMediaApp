@@ -123,7 +123,7 @@ postDate and reactions will default to the current date and an empty array
   async getSingleThoughtsReaction(req, res) {
     try {
       const reaction = await Reaction.findOne({
-        _id: req.params.reactionId,
+        _id: req.params._id,
       }).select("-__v");
 
       if (!reaction) {

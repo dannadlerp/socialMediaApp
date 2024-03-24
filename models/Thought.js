@@ -1,6 +1,6 @@
 const { Schema, model, Types } = require("mongoose");
 
-// Schema to create a course model
+// Schema to create a thought model
 const thoughtSchema = new Schema(
   {
     thoughtText: {
@@ -16,7 +16,7 @@ const thoughtSchema = new Schema(
     reactions: [
       {
         type: Schema.Types.ObjectId, //scehma types is different from just types to be used in schemas only
-        ref: "thoughtSchema",
+        ref: "reactionSchema",
       },
     ],
   },
@@ -24,7 +24,6 @@ const thoughtSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
-    id: false,
   }
 );
 

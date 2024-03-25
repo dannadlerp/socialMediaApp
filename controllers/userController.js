@@ -143,6 +143,34 @@ format: {
 } */
 
   async addFriend(req, res) {
+    console.log("You are adding a friend");
+    console.log(req.body);
+
+    try {
+      // Create a new Friend using req.body
+      const friend = await User.create(req.body);
+
+      // Find the user by its _id and update its friends array
+      const updatedUser = await User.findOneAndUpdate(
+        //{ _id: req.params._id },
+        { $addToSet: { friends: friend._id } } // Add the new friend _id to the 'friends' array
+      );
+
+      if (!updatedUser) {
+        return res
+          .status(404)
+          .json({ message: "No user found with that ID :(" });
+      }
+
+      // Send the updated user as the response
+      res.json(updatedUser);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send(err);
+    }
+  },
+
+  /* async addFriend(req, res) {
     console.log("You are adding an friend");
     console.log(req.body);
 
@@ -163,7 +191,8 @@ format: {
     } catch (err) {
       return res.status(500).send(err);
     }
-  },
+  }, */
+
   // Remove friend from a user
   async removeFriend(req, res) {
     try {
@@ -179,7 +208,7 @@ format: {
           .json({ message: "No friend found with that ID :(" });
       }
 
-      res.json(friend);
+      res.json({ message: "Friend successfully deleted" });
     } catch (err) {
       return res.status(500).send(err);
     }

@@ -15,10 +15,15 @@ const {
 router.route("/").get(getUsers).post(createUser);
 
 // /api/users/:_id
-router.route("/:_id").get(getSingleUser).delete(deleteUser).put(updateUser);
+router
+  .route("/:_id")
+  .get(getSingleUser)
+  .delete(deleteUser)
+  .put(updateUser)
+  .post(addFriend);
 
 // /api/users/:_id/friends
-router.route("/:_id/friends").get(getFriends).post(addFriend);
+router.route("/:_id/friends").get(getFriends);
 
 // /api/users/:_id/friends/:friendId
 router
